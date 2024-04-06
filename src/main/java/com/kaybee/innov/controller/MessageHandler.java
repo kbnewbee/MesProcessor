@@ -28,7 +28,7 @@ public class MessageHandler {
     return ResponseEntity.status(HttpStatus.ACCEPTED).body("Message is successfully processed");
   }
 
-  @PostMapping("/push")
+  @PostMapping("/pushA")
   public ResponseEntity<String> submitMessageArray(@RequestBody ArrayList<Message> messageA) {
     try {
       messageProcessorService.submitMessageArray(messageA);
