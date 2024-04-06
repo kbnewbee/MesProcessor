@@ -1,6 +1,7 @@
 package com.kaybee.innov.service;
 
 import com.kaybee.innov.model.Message;
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -42,6 +43,18 @@ public class MessageProcessorService {
       allocateMessageProcessor(message.getProcessor());
 
       messageQueue.put(message);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+  }
+
+  public void submitMessageArray(ArrayList<Message> messageA) {
+    try {
+      for (int i = 0; i < messageA.size(); i++) {
+
+        allocateMessageProcessor(messageA.get(i).getProcessor());
+        messageQueue.put(messageA.get(i));
+      }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
