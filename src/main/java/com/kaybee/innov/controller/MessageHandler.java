@@ -3,6 +3,8 @@ package com.kaybee.innov.controller;
 import com.kaybee.innov.model.Message;
 import com.kaybee.innov.service.MessageProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +16,15 @@ public class MessageHandler {
   private MessageProcessorService messageProcessorService;
 
   @PostMapping("/push")
-  public void submitMessage(@RequestBody Message message) {
-    messageProcessorService.submitMessage(message);
+  public ResponseEntity<String> submitMessage(@RequestBody Message message) {
+    try {
+      messageProcessorService.submitMessage(message);
+    } catch (Exception e) {
+      System.out.println(e);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Message is successfully processed");
   }
 
 }
